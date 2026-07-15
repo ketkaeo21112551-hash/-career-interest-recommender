@@ -1,17 +1,23 @@
 export default function Home() {
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto' }}>
-      <h1>Career Interest Recommender</h1>
-      <p>บอกเราเกี่ยวกับความสนใจของคุณ เพื่อให้ AI แนะนำอาชีพที่ใช่สำหรับคุณ!</p>
-      
-      <textarea 
-        placeholder="เช่น ฉันชอบวาดรูป สนใจงานออกแบบ 3D และชอบใช้โปรแกรม Blender..." 
-        style={{ width: '100%', height: '150px', padding: '10px', fontSize: '16px' }}
-      />
-      <br /><br />
-      <button style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer', backgroundColor: '#0070f3', color: 'white', border: 'none', borderRadius: '5px' }}>
-        วิเคราะห์อาชีพ
-      </button>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+          Career Interest Recommender 🚀
+        </h1>
+        <p className="text-gray-600 mb-6 text-center">
+          บอกความสนใจของคุณ แล้วให้ AI ช่วยแนะนำอาชีพที่ใช่!
+        </p>
+        
+        <textarea 
+          className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none mb-4"
+          placeholder="เช่น ฉันชอบวาดรูป สนใจงานออกแบบ 3D และชอบใช้โปรแกรม Blender..." 
+        />
+        
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300">
+          วิเคราะห์อาชีพ
+        </button>
+      </div>
     </div>
   )
 }
