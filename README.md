@@ -1,2 +1,17 @@
-# -career-interest-recommender
-"AI-powered web application to recommend career paths based on personal interests."
+# Career Interest Recommender 🚀
+
+"เว็บไซต์อัจฉริยะที่ช่วยวิเคราะห์ความสนใจและแนะนำเส้นทางอาชีพที่ใช่สำหรับคุณ"
+
+## 📝 เกี่ยวกับโครงงาน
+โปรเจกต์นี้พัฒนาขึ้นเพื่อเป็นเครื่องมือแนะนำอาชีพ โดยใช้ AI เข้ามาช่วยวิเคราะห์ข้อมูลความสนใจและทักษะของผู้ใช้งาน เพื่อจับคู่กับแนวโน้มตลาดแรงงานในปัจจุบัน
+
+## 🛠 เทคโนโลยีที่ใช้ (Tech Stack)
+*   **Frontend:** Next.js, Tailwind CSS
+*   **AI Integration:** OpenAI API
+*   **Database:** Supabase
+*   **Deployment:** Vercel
+
+## 📌 เป้าหมายของโครงการ
+*   สร้างระบบที่วิเคราะห์ความสนใจผ่านภาษาธรรมชาติ (Natural Language)
+*   แนะนำอาชีพที่มีความสอดคล้องกับทักษะของผู้ใช้จริง
+*   ออกแบบ UI/UX ให้ใช้งานง่ายและตอบโจทย์ผู้ใช้งาน
