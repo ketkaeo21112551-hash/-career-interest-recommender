@@ -1,21 +1,38 @@
-<script>
-async function askAI() {
-    const userInput = document.getElementById("interest").value;
-    const resultDiv = document.getElementById("result");
-    if (!userInput) return alert("กรุณากรอกความสนใจ");
-    
-    resultDiv.innerText = "กำลังวิเคราะห์...";
-    
-    // เปลี่ยนมาใช้การสุ่มคำตอบแทนการเรียก API
-    setTimeout(() => {
-        const answers = [
-            "จากความสนใจของคุณ อาชีพที่น่าจะเหมาะคือ กราฟิกดีไซน์เนอร์ ครับ",
-            "คุณเหมาะกับงานสาย Programmer หรือ Data Analyst ครับ",
-            "ลองศึกษาอาชีพ Content Creator ดูไหมครับ เหมาะกับความสนใจของคุณมาก",
-            "อาชีพนักวางแผนกลยุทธ์น่าจะตอบโจทย์คุณครับ"
-        ];
-        const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
-        resultDiv.innerText = randomAnswer;
-    }, 1500); // รอ 1.5 วินาทีเพื่อให้ดูเหมือนว่ากำลังคิด
-}
-</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-2">Career Interest Recommender 🚀</h1>
+        <p class="text-gray-600 mb-6">บอกความสนใจของคุณ แล้วให้ระบบแนะนำอาชีพที่ใช่!</p>
+        
+        <textarea id="interest" class="w-full border p-2 mb-4" placeholder="เช่น ฉันชอบงานออกแบบ..."></textarea>
+        
+        <button onclick="getCareer()" class="bg-blue-600 text-white w-full py-2 rounded">วิเคราะห์อาชีพ</button>
+        
+        <div id="result" class="mt-4 p-4 bg-gray-100 rounded min-h-[50px]"></div>
+    </div>
+
+    <script>
+        function getCareer() {
+            const userInput = document.getElementById("interest").value;
+            const resultDiv = document.getElementById("result");
+            if (!userInput) return alert("กรุณากรอกความสนใจ");
+            
+            resultDiv.innerText = "กำลังวิเคราะห์...";
+            
+            setTimeout(() => {
+                const answers = [
+                    "คุณเหมาะกับสายงานออกแบบและสร้างสรรค์ครับ",
+                    "ทักษะของคุณเหมาะกับงานด้านเทคโนโลยีและโปรแกรมเมอร์ครับ",
+                    "คุณน่าจะไปได้ดีในงานด้านการวางแผนกลยุทธ์และการจัดการครับ",
+                    "ลองศึกษาอาชีพ Content Creator ดูไหมครับ เหมาะกับคุณมาก"
+                ];
+                resultDiv.innerText = answers[Math.floor(Math.random() * answers.length)];
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
