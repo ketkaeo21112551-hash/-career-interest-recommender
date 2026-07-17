@@ -19,39 +19,41 @@
         async function getCareer() {
             const userInput = document.getElementById("interest").value;
             const resultDiv = document.getElementById("result");
-            const API_KEY = AQ.Ab8RN6JHe4QdXTRtXkdC9HWHZK5QE_6Pb0Oq9NoTPNTVF63GjQ
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            <script>
+    function getCareer() {
+        const userInput = document.getElementById("interest").value;
+        const resultDiv = document.getElementById("result");
 
-            if (!userInput) {
-                alert("กรุณากรอกความสนใจ");
-                return;
-            }
-            
-            resultDiv.innerText = "กำลังวิเคราะห์...";
-
-            try {
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: "แนะนำอาชีพให้หน่อยถ้าฉันสนใจเรื่อง: " + userInput }] }]
-                    })
-                });
-                
-                const data = await response.json();
-                
-                // ตรวจสอบว่าได้ข้อมูลจริงไหม
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
-                    resultDiv.innerText = data.candidates[0].content.parts[0].text;
-                } else {
-                    resultDiv.innerText = "ไม่พบคำตอบจาก AI";
-                }
-            } catch (err) {
-                resultDiv.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
-                console.error(err);
-            }
+        if (!userInput) {
+            alert("กรุณากรอกความสนใจ");
+            return;
         }
-    </script> 
+
+        resultDiv.innerText = "กำลังวิเคราะห์...";
+
+        // จำลองเวลาให้ดูเหมือนกำลังคิด
+        setTimeout(() => {
+            let recommendation = "";
+
+            // สุ่มแบบมีเงื่อนไข (ถ้ามีคำที่เกี่ยวข้อง จะแนะนำอาชีพที่ตรงกลุ่ม)
+            if (userInput.includes("ลุย") || userInput.includes("ธรรมชาติ") || userInput.includes("ผจญภัย")) {
+                const outdoorJobs = ["นักธรณีวิทยา", "ไกด์นำเที่ยวเชิงผจญภัย", "ช่างภาพสัตว์ป่า", "เจ้าหน้าที่ป่าไม้"];
+                recommendation = "น่าสนใจมาก! กับความชอบสายลุยของคุณ อาชีพที่เหมาะคือ: " + outdoorJobs[Math.floor(Math.random() * outdoorJobs.length)];
+            } 
+            else if (userInput.includes("ร้องเพลง") || userInput.includes("ดนตรี") || userInput.includes("ศิลปะ")) {
+                const artJobs = ["ศิลปินอิสระ", "นักแต่งเพลง", "กราฟิกดีไซน์เนอร์", "ครูสอนดนตรี"];
+                recommendation = "คุณมีหัวใจศิลปิน! อาชีพที่น่าจะใช่คือ: " + artJobs[Math.floor(Math.random() * artJobs.length)];
+            }
+            else {
+                // ถ้าไม่ตรงกับเงื่อนไขข้างบน ก็สุ่มจากรายการกลางๆ
+                const generalJobs = ["นักการตลาดดิจิทัล", "นักวิเคราะห์ข้อมูล", "ผู้ประกอบการ", "ที่ปรึกษาธุรกิจ"];
+                recommendation = "จากความสนใจของคุณ ลองพิจารณาอาชีพนี้ดูครับ: " + generalJobs[Math.floor(Math.random() * generalJobs.length)];
+            }
+
+            resultDiv.innerText = recommendation;
+        }, 1500); // หน่วงเวลา 1.5 วินาทีให้ดูขลัง
+    }
+</script>
 
 
 
