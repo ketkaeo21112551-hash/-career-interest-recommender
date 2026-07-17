@@ -15,14 +15,18 @@
         <div id="result" class="mt-4 p-4 bg-gray-100 rounded min-h-[50px]"></div>
     </div>
 
-        <script>
+           <script>
         async function getCareer() {
             const userInput = document.getElementById("interest").value;
             const resultDiv = document.getElementById("result");
             const API_KEY = "AQ.Ab8RN6JHe4QdXTRtXkdC9HWHZK5QE_6Pb0Oq9NoTPNTVF63GjQ";
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-            if (!userInput) return alert("กรุณากรอกความสนใจ");
+            if (!userInput) {
+                alert("กรุณากรอกความสนใจ");
+                return;
+            }
+            
             resultDiv.innerText = "กำลังวิเคราะห์...";
 
             try {
@@ -33,10 +37,25 @@
                         contents: [{ parts: [{ text: "แนะนำอาชีพให้หน่อยถ้าฉันสนใจเรื่อง: " + userInput }] }]
                     })
                 });
+                
                 const data = await response.json();
-                resultDiv.innerText = data.candidates[0].content.parts[0].text;
+                
+                // ตรวจสอบว่าได้ข้อมูลจริงไหม
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    resultDiv.innerText = data.candidates[0].content.parts[0].text;
+                } else {
+                    resultDiv.innerText = "ไม่พบคำตอบจาก AI";
+                }
             } catch (err) {
-                resultDiv.innerText = "เกิดข้อผิดพลาด: ไม่สามารถเชื่อมต่อกับ AI ได้";
+                resultDiv.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
+                console.error(err);
             }
         }
-    </script>
+    </script> 
+
+
+
+
+    
+
+    
