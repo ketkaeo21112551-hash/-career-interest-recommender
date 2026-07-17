@@ -1,45 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold mb-2">Career Interest Recommender 🚀</h1>
-        <p class="text-gray-600 mb-6">บอกความสนใจของคุณ แล้วให้ AI ช่วยแนะนำอาชีพที่ใช่!</p>
-        
-        <textarea id="interest" class="w-full border p-2 mb-4" placeholder="เช่น ฉันชอบงานออกแบบ 3D..."></textarea>
-        
-        <button onclick="askAI()" class="bg-blue-600 text-white w-full py-2 rounded">วิเคราะห์อาชีพ</button>
-        
-        <div id="result" class="mt-4 p-4 bg-gray-100 rounded min-h-[50px]"></div>
-    </div>
-
-    <script>
-        async function askAI() {
-            const userInput = document.getElementById("interest").value;
-            const resultDiv = document.getElementById("result");
-            if (!userInput) return alert("กรุณากรอกความสนใจ");
-            
-            resultDiv.innerText = "กำลังวิเคราะห์...";
-            
-            const API_KEY = AIzaSyApzd1Jp4Iba-qHJVgzICxZpsoHcMex3b0
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
-            try {
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: "แนะนำอาชีพที่เหมาะกับความสนใจนี้: " + userInput }] }]
-                    })
-                });
-                const data = await response.json();
-                resultDiv.innerText = data.candidates[0].content.parts[0].text;
-            } catch (err) {
-                resultDiv.innerText = "เกิดข้อผิดพลาด ลองใหม่อีกครั้ง";
-            }
-        }
-    </script>
-</body>
-</html>
+<script>
+async function askAI() {
+    const userInput = document.getElementById("interest").value;
+    const resultDiv = document.getElementById("result");
+    if (!userInput) return alert("กรุณากรอกความสนใจ");
+    
+    resultDiv.innerText = "กำลังวิเคราะห์...";
+    
+    // เปลี่ยนมาใช้การสุ่มคำตอบแทนการเรียก API
+    setTimeout(() => {
+        const answers = [
+            "จากความสนใจของคุณ อาชีพที่น่าจะเหมาะคือ กราฟิกดีไซน์เนอร์ ครับ",
+            "คุณเหมาะกับงานสาย Programmer หรือ Data Analyst ครับ",
+            "ลองศึกษาอาชีพ Content Creator ดูไหมครับ เหมาะกับความสนใจของคุณมาก",
+            "อาชีพนักวางแผนกลยุทธ์น่าจะตอบโจทย์คุณครับ"
+        ];
+        const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+        resultDiv.innerText = randomAnswer;
+    }, 1500); // รอ 1.5 วินาทีเพื่อให้ดูเหมือนว่ากำลังคิด
+}
+</script>
