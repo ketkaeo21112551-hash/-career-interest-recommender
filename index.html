@@ -8,56 +8,45 @@
         <h1 class="text-2xl font-bold mb-2">Career Interest Recommender 🚀</h1>
         <p class="text-gray-600 mb-6">บอกความสนใจของคุณ แล้วให้ระบบแนะนำอาชีพที่ใช่!</p>
         
-        <textarea id="interest" class="w-full border p-2 mb-4" placeholder="เช่น ฉันชอบงานออกแบบ..."></textarea>
+        <textarea id="interest" class="w-full border p-2 mb-4" placeholder="เช่น ฉันชอบลุยๆ, ฉันชอบดนตรี..."></textarea>
         
         <button onclick="getCareer()" class="bg-blue-600 text-white w-full py-2 rounded">วิเคราะห์อาชีพ</button>
         
         <div id="result" class="mt-4 p-4 bg-gray-100 rounded min-h-[50px]"></div>
     </div>
 
-           <script>
-        async function getCareer() {
+    <script>
+        function getCareer() {
             const userInput = document.getElementById("interest").value;
             const resultDiv = document.getElementById("result");
-            <script>
-    function getCareer() {
-        const userInput = document.getElementById("interest").value;
-        const resultDiv = document.getElementById("result");
 
-        if (!userInput) {
-            alert("กรุณากรอกความสนใจ");
-            return;
+            if (!userInput) {
+                alert("กรุณากรอกความสนใจ");
+                return;
+            }
+
+            resultDiv.innerText = "กำลังวิเคราะห์...";
+
+            setTimeout(() => {
+                let recommendation = "";
+                const input = userInput.toLowerCase();
+
+                if (input.includes("ลุย") || input.includes("กีฬา") || input.includes("ผจญภัย")) {
+                    recommendation = "น่าสนใจมาก! กับความชอบสายลุยของคุณ อาชีพที่เหมาะคือ: นักกีฬาอาชีพ หรือ ไกด์นำเที่ยวเชิงผจญภัย";
+                } else if (input.includes("ร้องเพลง") || input.includes("ดนตรี") || input.includes("ศิลปะ")) {
+                    recommendation = "คุณมีหัวใจศิลปิน! อาชีพที่น่าจะใช่คือ: นักแต่งเพลง หรือ กราฟิกดีไซน์เนอร์";
+                } else if (input.includes("เด็ก") || input.includes("สอน")) {
+                    recommendation = "คุณมีใจรักการดูแล! อาชีพที่เหมาะคือ: ครูปฐมวัย หรือ นักจิตวิทยาเด็ก";
+                } else {
+                    const jobs = ["นักการตลาดดิจิทัล", "นักวิเคราะห์ข้อมูล", "ผู้ประกอบการ"];
+                    recommendation = "จากความสนใจของคุณ ลองพิจารณาอาชีพนี้ดูครับ: " + jobs[Math.floor(Math.random() * jobs.length)];
+                }
+
+                resultDiv.innerText = recommendation;
+            }, 1000);
         }
-
-        resultDiv.innerText = "กำลังวิเคราะห์...";
-
-        // จำลองเวลาให้ดูเหมือนกำลังคิด
-        setTimeout(() => {
-            let recommendation = "";
-
-            // สุ่มแบบมีเงื่อนไข (ถ้ามีคำที่เกี่ยวข้อง จะแนะนำอาชีพที่ตรงกลุ่ม)
-            if (userInput.includes("ลุย") || userInput.includes("ธรรมชาติ") || userInput.includes("ผจญภัย")) {
-                const outdoorJobs = ["นักธรณีวิทยา", "ไกด์นำเที่ยวเชิงผจญภัย", "ช่างภาพสัตว์ป่า", "เจ้าหน้าที่ป่าไม้"];
-                recommendation = "น่าสนใจมาก! กับความชอบสายลุยของคุณ อาชีพที่เหมาะคือ: " + outdoorJobs[Math.floor(Math.random() * outdoorJobs.length)];
-            } 
-            else if (userInput.includes("ร้องเพลง") || userInput.includes("ดนตรี") || userInput.includes("ศิลปะ")) {
-                const artJobs = ["ศิลปินอิสระ", "นักแต่งเพลง", "กราฟิกดีไซน์เนอร์", "ครูสอนดนตรี"];
-                recommendation = "คุณมีหัวใจศิลปิน! อาชีพที่น่าจะใช่คือ: " + artJobs[Math.floor(Math.random() * artJobs.length)];
-            }
-            else {
-                // ถ้าไม่ตรงกับเงื่อนไขข้างบน ก็สุ่มจากรายการกลางๆ
-                const generalJobs = ["นักการตลาดดิจิทัล", "นักวิเคราะห์ข้อมูล", "ผู้ประกอบการ", "ที่ปรึกษาธุรกิจ"];
-                recommendation = "จากความสนใจของคุณ ลองพิจารณาอาชีพนี้ดูครับ: " + generalJobs[Math.floor(Math.random() * generalJobs.length)];
-            }
-
-            resultDiv.innerText = recommendation;
-        }, 1500); // หน่วงเวลา 1.5 วินาทีให้ดูขลัง
-    }
-</script>
-
-
-
-
-    
+    </script>
+</body>
+</html>
 
     
