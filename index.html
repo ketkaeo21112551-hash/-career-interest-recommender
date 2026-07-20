@@ -1,126 +1,89 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Recommender Pro</title>
-    <style>
-        body { font-family: 'Kanit', sans-serif; background: #f1f5f9; padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h1 { color: #4f46e5; text-align: center; }
-        .q-box { margin-bottom: 25px; }
-        .btn { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; text-align: left; background: white; transition: 0.2s; }
-        .btn:hover { background: #eef2ff; border-color: #4f46e5; }
-        .selected { background: #4f46e5 !important; color: white; border-color: #4f46e5; }
-        .action-btn { width: 100%; padding: 18px; background: #4f46e5; color: white; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; margin-top: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบทดสอบค้นหาอาชีพในฝัน</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>แบบทดสอบอาชีพที่ใช่ (10 ข้อ)</h1>
-        <div id="quiz"></div>
-        <button class="action-btn" onclick="getResult()">วิเคราะห์อาชีพของฉัน</button>
-        <div id="result" style="margin-top:20px; font-size:22px; font-weight:bold; color:#4f46e5; text-align:center;"></div>
+<body class="bg-slate-50 min-h-screen py-10 px-4">
+  <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">🎯 ค้นหาอาชีพที่ใช่สำหรับคุณ</h1>
+      <p class="text-gray-600">วิเคราะห์ตัวตนผ่านจิตวิทยา เพื่อสร้างแรงบันดาลใจในอนาคต</p>
     </div>
 
-    <script>
-        const questions = [
-            {q: "1. งานในฝันที่คุณรู้สึกอินที่สุด?", a: [
-                {text: "งานลุยๆ ป้องกันความยุติธรรม (ตำรวจ/ทหาร/นักกีฬา)", type: "police"},
-                {text: "งานสร้างสิ่งของ โค้ดโปรแกรม คำนวณ (วิศวกรโยธา/โปรแกรมเมอร์)", type: "eng"},
-                {text: "งานดูแลผู้คน สอนหนังสือ รักษาคน (คุณครู/พยาบาล)", type: "nurse"},
-                {text: "งานศิลปะ เสียงเพลง ขีดเขียน (นักวาดรูป/นักร้อง)", type: "art"}
-            ]},
-            {q: "2. คุณชอบบรรยากาศการทำงานแบบไหน?", a: [
-                {text: "ตื่นเต้น ท้าทาย สถานการณ์เปลี่ยนตลอดเวลา", type: "police"},
-                {text: "มีโครงสร้างชัดเจน มีระบบและระเบียบ", type: "eng"},
-                {text: "อบอุ่น เป็นกันเอง ได้ช่วยเหลือผู้คน", type: "nurse"},
-                {text: "อิสระ มีพื้นที่ส่วนตัวในการสร้างสรรค์", type: "art"}
-            ]},
-            {q: "3. ถ้าเจอเด็กหรือคนต้องการความช่วยเหลือ คุณจะทำอย่างไร?", a: [
-                {text: "เข้าไปปกป้อง ระงับเหตุ หรือดูแลความปลอดภัย", type: "police"},
-                {text: "วิเคราะห์ปัญหาและหาทางแก้ทางเทคนิคหรือโครงสร้าง", type: "eng"},
-                {text: "เข้าไปดูแล ให้คำปรึกษา สอน หรือเยียวยาจิตใจ", type: "nurse"},
-                {text: "สร้างสรรค์ผลงานหรือสื่อเพื่อสร้างแรงบันดาลใจให้เขา", type: "art"}
-            ]},
-            {q: "4. ความถนัดด้านร่างกายหรือทักษะพิเศษของคุณ?", a: [
-                {text: "แข็งแรง อึด ถึก ทน ชอบเคลื่อนไหวร่างกาย", type: "police"},
-                {text: "มือละเอียด ชอบประดิษฐ์ ตรรกะแน่น", type: "eng"},
-                {text: "มีความเมตตา อดทนสูง จิตวิทยาดี", type: "nurse"},
-                {text: "เสียงดี มือไว มีจินตนาการสูงมาก", type: "art"}
-            ]},
-            {q: "5. ถ้าเลือกได้อยากสวมบทบาทไหนในสังคม?", a: [
-                {text: "ผู้พิทักษ์สันติราษฎร์ / นักกีฬาตัวแทนประเทศ", type: "police"},
-                {text: "ผู้สร้างตึก อาคาร หรือระบบคอมพิวเตอร์", type: "eng"},
-                {text: "ผู้ให้ความรู้และสร้างเยาวชน / ผู้รักษาพยาบาล", type: "nurse"},
-                {text: "ศิลปินผู้สร้างรอยยิ้มผ่านเสียงเพลงและภาพวาด", type: "art"}
-            ]},
-            {q: "6. สไตล์การสื่อสารของคุณ?", a: [
-                {text: "เน้นการกระทำและคำสั่งที่ชัดเจน เด็ดขาด", type: "police"},
-                {text: "อธิบายตามหลักการ ข้อมูล และเหตุผล", type: "eng"},
-                {text: "พูดจาอ่อนโยน โน้มน้าวใจ สอนและรับฟัง", type: "nurse"},
-                {text: "ใช้เสียงเพลง งานศิลป์ สื่ออารมณ์ความรู้สึก", type: "art"}
-            ]},
-            {q: "7. วิชาหรือกิจกรรมที่ชอบตอนเรียน?", a: [
-                {text: "พละศึกษา, กิจกรรมกลางแจ้ง, ลูกเสือ", type: "police"},
-                {text: "คณิตศาสตร์, วิทยาศาสตร์, คอมพิวเตอร์", type: "eng"},
-                {text: "สังคมศึกษา, ชีววิทยา, จิตวิทยา", type: "nurse"},
-                {text: "ศิลปะ, ดนตรี, ภาษาต่างประเทศ", type: "art"}
-            ]},
-            {q: "8. ความอดทนที่คุณมีมากที่สุดคืออะไร?", a: [
-                {text: "อดทนต่อความยากลำบากทางกายและสถานการณ์กดดัน", type: "police"},
-                {text: "อดทนต่อการแกะโค้ด แก้บั๊ก หรือคำนวณตัวเลข", type: "eng"},
-                {text: "อดทนต่ออารมณ์คน ความเหนื่อยล้าในการดูแลคน", type: "nurse"},
-                {text: "อดทนทำงานหน้าจอหรือฝึกซ้อมจนดึกเพื่อผลงานที่ดี", type: "art"}
-            ]},
-            {q: "9. ลักษณะการทำงานร่วมกับผู้อื่นที่คุณชอบ?", a: [
-                {text: "ลุยเป็นทีมภาคสนาม ปฏิบัติภารกิจร่วมกัน", type: "police"},
-                {text: "ทำงานเป็นทีมเล็กๆ แบ่งหน้าที่ระบบชัดเจน", type: "eng"},
-                {text: "ทำงานกับผู้คนจำนวนมากหรือดูแลใกล้ชิด", type: "nurse"},
-                {text: "ทำงานคนเดียวได้ หรือทำงานกับกลุ่มศิลปินด้วยกัน", type: "art"}
-            ]},
-            {q: "10. คุณอยากให้คนจดจำคุณในฐานะอะไร?", a: [
-                {text: "ฮีโร่ผู้ปกป้องความยุติธรรม / คนเก่งกีฬา", type: "police"},
-                {text: "ผู้สร้างนวัตกรรม สิ่งก่อสร้าง หรือโปรแกรมสุดล้ำ", type: "eng"},
-                {text: "ครูผู้ให้ความรู้ / พยาบาลใจดีผู้ช่วยชีวิต", type: "nurse"},
-                {text: "ศิลปินผู้สร้างสรรค์บทเพลงและภาพวาดอันทรงคุณค่า", type: "art"}
-            ]}
-        ];
+    <form id="quiz-form" class="space-y-6">
+      <div class="p-4 bg-slate-50 rounded-xl border">
+        <label class="block font-semibold mb-2">1. ยามว่างคุณชอบทำกิจกรรมอะไรมากที่สุด?</label>
+        <div class="space-y-2">
+          <label class="flex items-center"><input type="radio" name="q1" value="teacher" class="mr-2"> สอนการบ้าน หรือเล่าเรื่องให้เด็กๆ ฟัง</label>
+          <label class="flex items-center"><input type="radio" name="q1" value="artist" class="mr-2"> วาดรูป หรือออกแบบผลงานศิลปะ</label>
+          <label class="flex items-center"><input type="radio" name="q1" value="engineer" class="mr-2"> ออกแบบโครงสร้าง หรือต่อโมเดล</label>
+          <label class="flex items-center"><input type="radio" name="q1" value="athlete" class="mr-2"> ออกกำลังกาย หรือเล่นฟุตบอล</label>
+          <label class="flex items-center"><input type="radio" name="q1" value="doctor" class="mr-2"> ศึกษาเรื่องสุขภาพและการปฐมพยาบาล</label>
+        </div>
+      </div>
 
-        const quizDiv = document.getElementById('quiz');
-        questions.forEach((item, i) => {
-            quizDiv.innerHTML += `<div class='q-box'><p><b>${item.q}</b></p>` + 
-            item.a.map((opt, optIdx) => `<button class='btn' onclick="select(this, ${i}, '${opt.type}')">${opt.text}</button>`).join('') + `</div>`;
-        });
+      <div class="p-4 bg-slate-50 rounded-xl border">
+        <label class="block font-semibold mb-2">2. เมื่อเพื่อนมีปัญหา คุณมักทำหน้าที่อะไร?</label>
+        <div class="space-y-2">
+          <label class="flex items-center"><input type="radio" name="q2" value="lawyer" class="mr-2"> ช่วยหาความจริงและใช้เหตุผลตัดสิน</label>
+          <label class="flex items-center"><input type="radio" name="q2" value="police" class="mr-2"> กล้าหาญ ลุยเข้าไปจัดการปัญหา</label>
+          <label class="flex items-center"><input type="radio" name="q2" value="nurse" class="mr-2"> ดูแลด้วยความอ่อนโยน</label>
+          <label class="flex items-center"><input type="radio" name="q2" value="soldier" class="mr-2"> ปกป้องและคอยให้กำลังใจแบบทีม</label>
+          <label class="flex items-center"><input type="radio" name="q2" value="teacher" class="mr-2"> ให้คำปรึกษาและชี้แนะแนวทาง</label>
+        </div>
+      </div>
 
-        let userAnswers = {};
-        function select(btn, qIdx, type) {
-            btn.parentElement.querySelectorAll('.btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            userAnswers[qIdx] = type;
-        }
+      <div class="p-4 bg-slate-50 rounded-xl border">
+        <label class="block font-semibold mb-2">3. สภาพแวดล้อมการทำงานแบบไหนที่คุณชอบ?</label>
+        <div class="space-y-2">
+          <label class="flex items-center"><input type="radio" name="q3" value="artist" class="mr-2"> ห้องส่วนตัวที่มีอิสระทางความคิด</label>
+          <label class="flex items-center"><input type="radio" name="q3" value="engineer" class="mr-2"> หน้างานจริง หรือไซต์ก่อสร้าง</label>
+          <label class="flex items-center"><input type="radio" name="q3" value="athlete" class="mr-2"> สนามกีฬาหรือที่โล่งแจ้ง</label>
+          <label class="flex items-center"><input type="radio" name="q3" value="doctor" class="mr-2"> โรงพยาบาลที่ได้ช่วยเหลือคน</label>
+          <label class="flex items-center"><input type="radio" name="q3" value="lawyer" class="mr-2"> ศาล หรือห้องประชุมที่ใช้เจรจา</label>
+        </div>
+      </div>
 
-        function getResult() {
-            if(Object.keys(userAnswers).length < 10) { 
-                alert("กรุณาตอบคำถามให้ครบทั้ง 10 ข้อก่อนครับ!"); 
-                return; 
-            }
+      <button type="button" onclick="getResult()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition">วิเคราะห์ผลลัพธ์แบบเจาะลึก</button>
+    </form>
 
-            let scores = { police: 0, eng: 0, nurse: 0, art: 0 };
-            for(let key in userAnswers) {
-                scores[userAnswers[key]]++;
-            }
+    <div id="result" class="hidden mt-8 p-6 bg-blue-50 border-2 border-blue-200 rounded-2xl text-center">
+      <h3 id="job-name" class="text-2xl font-bold text-blue-900 mb-4"></h3>
+      <p id="job-desc" class="text-gray-700 leading-relaxed italic"></p>
+    </div>
+  </div>
 
-            let bestMatch = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-            
-            let resultText = "คุณเหมาะกับอาชีพ: ";
-            if(bestMatch === 'police') resultText += "👮‍♂️ ตำรวจ / 🪖 ทหาร / ⚽ นักกีฬา";
-            else if(bestMatch === 'eng') resultText += "💻 โปรแกรมเมอร์ (Coding) / 🏗️ วิศวกรโยธา";
-            else if(bestMatch === 'nurse') resultText += "👩‍🏫 คุณครู / 👩‍⚕️ พยาบาล";
-            else if(bestMatch === 'art') resultText += "🎤 นักร้อง / 🎨 นักวาดรูป";
+  <script>
+    function getResult() {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      if (!q1 || !q2 || !q3) { alert('กรุณาตอบให้ครบทุกข้อครับ!'); return; }
 
-            document.getElementById('result').innerText = resultText;
-        }
-    </script>
+      const scores = {};
+      [q1, q2, q3].forEach(q => { scores[q.value] = (scores[q.value] || 0) + 1; });
+      let best = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+      
+      const jobs = {
+        teacher: { name: "คุณครู", desc: "คุณเหมาะกับอาชีพครูเพราะคุณมี 'ใจรักในการให้' และความอดทนสูง คุณพร้อมจะเป็นแสงสว่างชี้นำทางให้ผู้อื่น ซึ่งเป็นคุณสมบัติที่สำคัญที่สุดของผู้ให้ความรู้ครับ!" },
+        artist: { name: "ศิลปิน / นักออกแบบ", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'ความคิดสร้างสรรค์ที่เป็นเลิศ' โลกต้องการคนอย่างคุณที่กล้าจะเปลี่ยนจินตนาการให้เป็นความจริงเพื่อสร้างแรงบันดาลใจให้คนรอบข้างครับ" },
+        engineer: { name: "วิศวกรโยธา", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'หัวใจนักสร้าง' ที่พร้อมจะวางรากฐานให้สังคมแข็งแรง ความละเอียดรอบคอบของคุณคือสิ่งที่จะสร้างความเป็นระเบียบให้แก่โลกใบนี้ครับ" },
+        athlete: { name: "นักกีฬาอาชีพ", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'จิตวิญญาณแห่งนักสู้' ความมุ่งมั่นและวินัยของคุณจะผลักดันให้คุณไปสู่จุดสูงสุด และเป็นต้นแบบของความแข็งแกร่งครับ" },
+        doctor: { name: "คุณหมอ", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'จิตใจที่งดงามและพร้อมเสียสละ' ความเมตตาที่คุณมีจะช่วยรักษาทั้งร่างกายและหัวใจของผู้คนให้ดีขึ้นครับ" },
+        lawyer: { name: "ทนายความ", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'ความยุติธรรมในหัวใจ' และกล้าที่จะยืนหยัดในความถูกต้อง เพื่อปกป้องผู้ที่อ่อนแอกว่าครับ" },
+        police: { name: "ตำรวจ", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'ความกล้าหาญที่อยากช่วยเหลือประชาชน' ความเสียสละของคุณจะทำให้สังคมมีความสงบสุขและปลอดภัยขึ้นมากครับ" },
+        nurse: { name: "พยาบาล", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'ความอ่อนโยนที่เป็นพลังใจ' ความเห็นอกเห็นใจของคุณจะช่วยให้ผู้ป่วยมีกำลังใจและฟื้นตัวได้เร็วยิ่งขึ้นครับ" },
+        soldier: { name: "ทหาร", desc: "คุณเหมาะกับอาชีพนี้เพราะคุณมี 'ความรับผิดชอบที่ยิ่งใหญ่' ความรักชาติและความเข้มแข็งของคุณคือเกราะป้องกันที่สำคัญให้กับคนในชาติครับ" }
+      };
+
+      document.getElementById('job-name').innerText = "อาชีพที่ใช่สำหรับคุณคือ: " + jobs[best].name;
+      document.getElementById('job-desc').innerText = jobs[best].desc;
+      document.getElementById('result').classList.remove('hidden');
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
