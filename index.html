@@ -5,38 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Interest Recommender</title>
     <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            text-align: center;
+            padding: 50px 20px;
         }
-        .container {
-            width: 100%;
-            max-width: 600px;
-            background: var(--card-bg);
+        .card {
+            background: white;
+            max-width: 500px;
+            margin: 0 auto;
             padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        h1 {
-            font-size: 24px;
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 8px;
+        h1 { color: #4f46e5; }
+        button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
         }
-        p.subtitle {
-            text-align: center;
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Career Interest Recommender</h1>
+        <p>ระบบค้นหาเส้นทางอาชีพที่ใช่สำหรับคุณ</p>
+        <button onclick="alert('ยินดีด้วย! เว็บไซต์ใช้งานได้ปกติแล้วครับ 🎉')">กดเพื่อทดสอบระบบ</button>
+    </div>
+</body>
+</html>
