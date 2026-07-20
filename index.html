@@ -9,7 +9,7 @@
         .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         h1 { color: #4f46e5; text-align: center; }
         .q-box { margin-bottom: 25px; }
-        .btn { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; text-align: left; background: white; transition: 0.3s; }
+        .btn { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; text-align: left; background: white; transition: 0.2s; }
         .btn:hover { background: #eef2ff; border-color: #4f46e5; }
         .selected { background: #4f46e5 !important; color: white; border-color: #4f46e5; }
         .action-btn { width: 100%; padding: 18px; background: #4f46e5; color: white; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; margin-top: 10px; }
@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>แบบทดสอบอาชีพที่ใช่</h1>
+        <h1>แบบทดสอบอาชีพที่ใช่ (10 ข้อ)</h1>
         <div id="quiz"></div>
         <button class="action-btn" onclick="getResult()">วิเคราะห์อาชีพของฉัน</button>
         <div id="result" style="margin-top:20px; font-size:22px; font-weight:bold; color:#4f46e5; text-align:center;"></div>
@@ -25,49 +25,100 @@
 
     <script>
         const questions = [
-            {q: "1. งานในฝันของคุณคืออะไร?", a: ["งานลุยๆ ไม่หยุดนิ่ง", "งานที่สร้างสิ่งของ/โครงสร้าง", "งานดูแลผู้คน/สอน/รักษา"]},
-            {q: "2. คุณรู้สึกอย่างไรกับเด็กๆ?", a: ["รัก อยากสอน/ดูแล", "เฉยๆ", "ไม่ถนัดเลย"]},
-            {q: "3. ถ้าเจอเหตุการณ์วิกฤต คุณทำอย่างไร?", a: ["วิ่งเข้าหา/ตัดสินใจทันที", "วางแผนแก้ปัญหาอย่างใจเย็น", "คอยปลอบ/ประสานงานให้ทุกคนปลอดภัย"]},
-            {q: "4. ความถนัดด้านร่างกายของคุณ?", a: ["แข็งแรง/อึด/ชอบกีฬา", "มือเบา/ทำงานละเอียด", "ชอบใช้ความคิดมากกว่าใช้แรง"]},
-            {q: "5. คุณชอบงานลักษณะไหนมากที่สุด?", a: ["งานศิลป์/ร้องเพลง/วาดรูป", "งานโค้ด/เทคโนโลยี/คอมพิวเตอร์", "งานภาคสนาม/ป้องกัน/ความปลอดภัย"]},
-            {q: "6. เรื่องการสื่อสารกับผู้คน?", a: ["ชอบเป็นศูนย์กลาง/พูดหน้าชั้น/ร้องเพลง", "ชอบคุยส่วนตัว/ให้คำปรึกษา", "ชอบทำงานเงียบๆ ไม่ยุ่งกับใคร"]},
-            {q: "7. คุณชอบแก้ปัญหาแบบไหน?", a: ["วางโครงสร้าง/ซ่อมแซมสิ่งของ", "แก้ปัญหาชีวิต/ส่งเสริมการเรียนรู้", "จัดการปัญหาอาชญากรรม/ความปลอดภัย"]},
-            {q: "8. สไตล์ความเท่ที่คุณชอบ?", a: ["เครื่องแบบ/เกียรติยศ", "ความคิดสร้างสรรค์/ผลงาน", "ความเสียสละ/ความเมตตา"]},
-            {q: "9. ทำงานร่วมกับคนอื่น?", a: ["ทีมใหญ่ๆ มีระเบียบ", "ทีมเล็กๆ หรือทำงานคนเดียว", "อยากดูแลคนอื่นโดยตรง"]},
-            {q: "10. ความอดทนต่อแรงกดดัน?", a: ["สูงมาก(ลุยได้เสมอ)", "สูงมาก(เน้นความแม่นยำ)", "สูงมาก(เน้นดูแลคน)"]}
+            {q: "1. งานในฝันที่คุณรู้สึกอินที่สุด?", a: [
+                {text: "งานลุยๆ ป้องกันความยุติธรรม (ตำรวจ/ทหาร/นักกีฬา)", type: "police"},
+                {text: "งานสร้างสิ่งของ โค้ดโปรแกรม คำนวณ (วิศวกรโยธา/โปรแกรมเมอร์)", type: "eng"},
+                {text: "งานดูแลผู้คน สอนหนังสือ รักษาคน (คุณครู/พยาบาล)", type: "nurse"},
+                {text: "งานศิลปะ เสียงเพลง ขีดเขียน (นักวาดรูป/นักร้อง)", type: "art"}
+            ]},
+            {q: "2. คุณชอบบรรยากาศการทำงานแบบไหน?", a: [
+                {text: "ตื่นเต้น ท้าทาย สถานการณ์เปลี่ยนตลอดเวลา", type: "police"},
+                {text: "มีโครงสร้างชัดเจน มีระบบและระเบียบ", type: "eng"},
+                {text: "อบอุ่น เป็นกันเอง ได้ช่วยเหลือผู้คน", type: "nurse"},
+                {text: "อิสระ มีพื้นที่ส่วนตัวในการสร้างสรรค์", type: "art"}
+            ]},
+            {q: "3. ถ้าเจอเด็กหรือคนต้องการความช่วยเหลือ คุณจะทำอย่างไร?", a: [
+                {text: "เข้าไปปกป้อง ระงับเหตุ หรือดูแลความปลอดภัย", type: "police"},
+                {text: "วิเคราะห์ปัญหาและหาทางแก้ทางเทคนิคหรือโครงสร้าง", type: "eng"},
+                {text: "เข้าไปดูแล ให้คำปรึกษา สอน หรือเยียวยาจิตใจ", type: "nurse"},
+                {text: "สร้างสรรค์ผลงานหรือสื่อเพื่อสร้างแรงบันดาลใจให้เขา", type: "art"}
+            ]},
+            {q: "4. ความถนัดด้านร่างกายหรือทักษะพิเศษของคุณ?", a: [
+                {text: "แข็งแรง อึด ถึก ทน ชอบเคลื่อนไหวร่างกาย", type: "police"},
+                {text: "มือละเอียด ชอบประดิษฐ์ ตรรกะแน่น", type: "eng"},
+                {text: "มีความเมตตา อดทนสูง จิตวิทยาดี", type: "nurse"},
+                {text: "เสียงดี มือไว มีจินตนาการสูงมาก", type: "art"}
+            ]},
+            {q: "5. ถ้าเลือกได้อยากสวมบทบาทไหนในสังคม?", a: [
+                {text: "ผู้พิทักษ์สันติราษฎร์ / นักกีฬาตัวแทนประเทศ", type: "police"},
+                {text: "ผู้สร้างตึก อาคาร หรือระบบคอมพิวเตอร์", type: "eng"},
+                {text: "ผู้ให้ความรู้และสร้างเยาวชน / ผู้รักษาพยาบาล", type: "nurse"},
+                {text: "ศิลปินผู้สร้างรอยยิ้มผ่านเสียงเพลงและภาพวาด", type: "art"}
+            ]},
+            {q: "6. สไตล์การสื่อสารของคุณ?", a: [
+                {text: "เน้นการกระทำและคำสั่งที่ชัดเจน เด็ดขาด", type: "police"},
+                {text: "อธิบายตามหลักการ ข้อมูล และเหตุผล", type: "eng"},
+                {text: "พูดจาอ่อนโยน โน้มน้าวใจ สอนและรับฟัง", type: "nurse"},
+                {text: "ใช้เสียงเพลง งานศิลป์ สื่ออารมณ์ความรู้สึก", type: "art"}
+            ]},
+            {q: "7. วิชาหรือกิจกรรมที่ชอบตอนเรียน?", a: [
+                {text: "พละศึกษา, กิจกรรมกลางแจ้ง, ลูกเสือ", type: "police"},
+                {text: "คณิตศาสตร์, วิทยาศาสตร์, คอมพิวเตอร์", type: "eng"},
+                {text: "สังคมศึกษา, ชีววิทยา, จิตวิทยา", type: "nurse"},
+                {text: "ศิลปะ, ดนตรี, ภาษาต่างประเทศ", type: "art"}
+            ]},
+            {q: "8. ความอดทนที่คุณมีมากที่สุดคืออะไร?", a: [
+                {text: "อดทนต่อความยากลำบากทางกายและสถานการณ์กดดัน", type: "police"},
+                {text: "อดทนต่อการแกะโค้ด แก้บั๊ก หรือคำนวณตัวเลข", type: "eng"},
+                {text: "อดทนต่ออารมณ์คน ความเหนื่อยล้าในการดูแลคน", type: "nurse"},
+                {text: "อดทนทำงานหน้าจอหรือฝึกซ้อมจนดึกเพื่อผลงานที่ดี", type: "art"}
+            ]},
+            {q: "9. ลักษณะการทำงานร่วมกับผู้อื่นที่คุณชอบ?", a: [
+                {text: "ลุยเป็นทีมภาคสนาม ปฏิบัติภารกิจร่วมกัน", type: "police"},
+                {text: "ทำงานเป็นทีมเล็กๆ แบ่งหน้าที่ระบบชัดเจน", type: "eng"},
+                {text: "ทำงานกับผู้คนจำนวนมากหรือดูแลใกล้ชิด", type: "nurse"},
+                {text: "ทำงานคนเดียวได้ หรือทำงานกับกลุ่มศิลปินด้วยกัน", type: "art"}
+            ]},
+            {q: "10. คุณอยากให้คนจดจำคุณในฐานะอะไร?", a: [
+                {text: "ฮีโร่ผู้ปกป้องความยุติธรรม / คนเก่งกีฬา", type: "police"},
+                {text: "ผู้สร้างนวัตกรรม สิ่งก่อสร้าง หรือโปรแกรมสุดล้ำ", type: "eng"},
+                {text: "ครูผู้ให้ความรู้ / พยาบาลใจดีผู้ช่วยชีวิต", type: "nurse"},
+                {text: "ศิลปินผู้สร้างสรรค์บทเพลงและภาพวาดอันทรงคุณค่า", type: "art"}
+            ]}
         ];
 
         const quizDiv = document.getElementById('quiz');
         questions.forEach((item, i) => {
-            quizDiv.innerHTML += `<div class='q-box'><p>${item.q}</p>` + 
-            item.a.map(opt => `<button class='btn' onclick="select(this, ${i})">${opt}</button>`).join('') + `</div>`;
+            quizDiv.innerHTML += `<div class='q-box'><p><b>${item.q}</b></p>` + 
+            item.a.map((opt, optIdx) => `<button class='btn' onclick="select(this, ${i}, '${opt.type}')">${opt.text}</button>`).join('') + `</div>`;
         });
 
-        function select(btn, qIdx) {
+        let userAnswers = {};
+        function select(btn, qIdx, type) {
             btn.parentElement.querySelectorAll('.btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
+            userAnswers[qIdx] = type;
         }
 
         function getResult() {
-            const selected = document.querySelectorAll('.selected');
-            if(selected.length < 10) { alert("ตอบให้ครบ 10 ข้อก่อนนะครับ!"); return; }
-            
-            let counts = { 'ลุย': 0, 'สร้าง': 0, 'ดูแล': 0, 'ศิลป์': 0 };
-            selected.forEach(s => {
-                let text = s.innerText;
-                if(text.includes('ลุย') || text.includes('ปลอดภัย') || text.includes('กีฬา')) counts['ลุย']++;
-                else if(text.includes('สร้าง') || text.includes('โค้ด') || text.includes('ละเอียด')) counts['สร้าง']++;
-                else if(text.includes('ดูแล') || text.includes('สอน') || text.includes('รักษา')) counts['ดูแล']++;
-                else counts['ศิลป์']++;
-            });
+            if(Object.keys(userAnswers).length < 10) { 
+                alert("กรุณาตอบคำถามให้ครบทั้ง 10 ข้อก่อนครับ!"); 
+                return; 
+            }
 
-            let max = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-            let resultText = "คุณเหมาะกับ: ";
-            if(max === 'ลุย') resultText += "ตำรวจ / ทหาร / นักกีฬาอาชีพ";
-            else if(max === 'สร้าง') resultText += "วิศวกรโยธา / โปรแกรมเมอร์ (Coding)";
-            else if(max === 'ดูแล') resultText += "คุณครู / พยาบาล";
-            else resultText += "นักวาดรูป / นักร้อง";
+            let scores = { police: 0, eng: 0, nurse: 0, art: 0 };
+            for(let key in userAnswers) {
+                scores[userAnswers[key]]++;
+            }
+
+            let bestMatch = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
             
+            let resultText = "คุณเหมาะกับอาชีพ: ";
+            if(bestMatch === 'police') resultText += "👮‍♂️ ตำรวจ / 🪖 ทหาร / ⚽ นักกีฬา";
+            else if(bestMatch === 'eng') resultText += "💻 โปรแกรมเมอร์ (Coding) / 🏗️ วิศวกรโยธา";
+            else if(bestMatch === 'nurse') resultText += "👩‍🏫 คุณครู / 👩‍⚕️ พยาบาล";
+            else if(bestMatch === 'art') resultText += "🎤 นักร้อง / 🎨 นักวาดรูป";
+
             document.getElementById('result').innerText = resultText;
         }
     </script>
