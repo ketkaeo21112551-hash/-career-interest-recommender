@@ -5,39 +5,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Interest Recommender</title>
     <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
         body {
-            font-family: sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            text-align: center;
-            padding: 50px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .card {
-            background: white;
-            max-width: 500px;
-            margin: 0 auto;
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-        h1 { color: #4f46e5; }
-        button {
-            background: #4f46e5;
+        h1 {
+            font-size: 24px;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .question-box {
+            margin-bottom: 24px;
+        }
+        .question-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            background: #ffffff;
+            border: 2px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #f1f5f9;
+        }
+        .option-btn.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .action-btn {
+            width: 100%;
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px;
             border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--primary-hover);
+        }
+        .result-container {
+            text-align: center;
+            display: none;
+        }
+        .result-container h2 {
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .result-card {
+            background: #eef2ff;
+            padding: 20px;
+            border-radius: 12px;
             margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #312e81;
+        }
+        .restart-btn {
+            background: #64748b;
+            margin-top: 20px;
+        }
+        .restart-btn:hover {
+            background: #475569;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Career Interest Recommender</h1>
-        <p>ระบบค้นหาเส้นทางอาชีพที่ใช่สำหรับคุณ</p>
-        <button onclick="alert('ยินดีด้วย! เว็บไซต์ใช้งานได้ปกติแล้วครับ 🎉')">กดเพื่อทดสอบระบบ</button>
+    <div class="container">
+        <!-- หน้าแบบทดสอบ -->
+        <div id="quiz-screen">
+            <h1>Career Interest Recommender</h1>
+            <p class="subtitle">ค้นหาเส้นทางอาชีพที่ใช่สำหรับคุณด้วยแบบทดสอบสั้นๆ</p>
+            
+            <div class="question-box">
+                <div class="question-title">1. คุณชื่นชอบกิจกรรมแนวไหนมากที่สุด?</div>
+                <div class="options" data-question="q1">
+                    <button class="option-btn" onclick="selectOption(this, 'q1', 'tech')">💻 เขียนโค้ด ออกแบบเว็บ หรือปั้นโมเดล 3D</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q1', 'art')">🎨 วาดรูป ออกแบบงานกราฟิก หรือสร้างสรรค์ศิลปะ</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q1', 'math')">📊 วิเคราะห์ตัวเลข สถิติ หรือบริหารจัดการข้อมูล</button>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">2. สไตล์การทำงานที่คุณรู้สึกสบายใจที่สุดคือแบบใด?</div>
+                <div class="options" data-question="q2">
+                    <button class="option-btn" onclick="selectOption(this, 'q2', 'solo')">🧑‍💻 ทำงานคนเดียว เน้นโฟกัสและผลงานส่วนตัว</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q2', 'team')">👥 ทำงานเป็นทีม ร่วมมือกับผู้อื่น แลกเปลี่ยนไอเดีย</button>
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">3. เป้าหมายหลักในการทำงานในอนาคตคืออะไร?</div>
+                <div class="options" data-question="q3">
+                    <button class="option-btn" onclick="selectOption(this, 'q3', 'creativity')">✨ สร้างสรรค์ผลงานชิ้นโบแดงที่คนจดจำ</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q3', 'stability')">📈 ความมั่นคง ความก้าวหน้า และระบบระเบียบที่ชัดเจน</button>
+                </div>
+            </div>
+
+            <button class="action-btn" onclick="showResult()">ดูผลลัพธ์อาชีพ</button>
+        </div>
+
+        <!-- หน้าแสดงผลลัพธ์ -->
+        <div id="result-screen" class="result-container">
+            <h2>ผลการวิเคราะห์อาชีพที่เหมาะสม</h2>
+            <p>จากคำตอบที่คุณเลือก สายงานที่เหมาะกับคุณที่สุดคือ:</p>
+            <div class="result-card" id="career-result">กำลังประมวลผล...</div>
+            <button class="action-btn restart-btn" onclick="resetQuiz()">ทำแบบทดสอบอีกครั้ง</button>
+        </div>
     </div>
+
+    <script>
+        let selectedAnswers = { q1: '', q2: '', q3: '' };
+
+        function selectOption(button, question, value) {
+            const parent = button.parentElement;
+            parent.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            button.classList.add('selected');
+            selectedAnswers[question] = value;
+        }
+
+        function showResult() {
+            if (!selectedAnswers.q1 || !selectedAnswers.q2 || !selectedAnswers.q3) {
+                alert('กรุณาตอบคำถามให้ครบทุกข้อก่อนกดดูผลลัพธ์ครับ!');
+                return;
+            }
+
+            let career = '';
+            
+            // เงื่อนไขการประมวลผลคำตอบ
+            if (selectedAnswers.q1 === 'tech') {
+                career = 'Software Developer / Frontend Engineer หรือ 3D Character Artist';
+            } else if (selectedAnswers.q1 === 'art') {
+                career = 'Graphic Designer / UI-UX Designer หรือ Animator';
+            } else if (selectedAnswers.q1 === 'math') {
+                career = 'Data Analyst / นักสถิติ หรือ นักวางแผนการเงิน';
+            }
+
+            document.getElementById('career-result').innerText = career;
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+        }
+
+        function resetQuiz() {
+            selectedAnswers = { q1: '', q2: '', q3: '' };
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
