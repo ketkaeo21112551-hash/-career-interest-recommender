@@ -1,61 +1,148 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>แบบทดสอบค้นหาอาชีพ</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Recommender Pro</title>
+    <style>
+        body { font-family: 'Kanit', sans-serif; background: #f1f5f9; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { color: #4f46e5; text-align: center; }
+        .q-box { margin-bottom: 25px; }
+        .btn { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; text-align: left; background: white; transition: 0.2s; }
+        .btn:hover { background: #eef2ff; border-color: #4f46e5; }
+        .selected { background: #4f46e5 !important; color: white; border-color: #4f46e5; }
+        .action-btn { width: 100%; padding: 18px; background: #4f46e5; color: white; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; margin-top: 10px; }
+        .result-box { margin-top: 20px; padding: 20px; background: #eef2ff; border-radius: 12px; border: 2px solid #c7d2fe; text-align: left; }
+        .result-title { font-size: 22px; font-weight: bold; color: #4f46e5; margin-bottom: 10px; }
+        .result-desc { font-size: 16px; color: #334155; line-height: 1.6; }
+    </style>
 </head>
-<body class="bg-slate-50 min-h-screen py-10 px-4">
-  <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
-    <h1 class="text-2xl font-bold text-center mb-6">🎯 แบบทดสอบค้นหาตัวตน (10 ข้อ)</h1>
-    
-    <form id="quiz-form" class="space-y-6">
-      <div id="questions-container" class="space-y-6">
+<body>
+    <div class="container">
+        <h1>แบบทดสอบอาชีพที่ใช่ (10 ข้อ)</h1>
+        <div id="quiz"></div>
+        <button class="action-btn" onclick="getResult()">วิเคราะห์อาชีพของฉัน</button>
+        <div id="result" style="display:none;" class="result-box">
+            <div id="result-title" class="result-title"></div>
+            <div id="result-desc" class="result-desc"></div>
         </div>
-      
-      <button type="button" onclick="calculateResult()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700">ดูผลการวิเคราะห์</button>
-    </form>
-
-    <div id="result" class="hidden mt-8 p-6 bg-blue-50 border-2 border-blue-200 rounded-2xl text-center">
-      <h3 id="job-name" class="text-2xl font-bold text-blue-900 mb-2"></h3>
-      <p id="job-desc" class="text-gray-700"></p>
     </div>
-  </div>
 
-  <script>
-    const questions = [
-      "1. ยามว่างคุณชอบทำกิจกรรมอะไร?", "2. เมื่อเพื่อนมีปัญหา คุณทำอะไร?", "3. ชอบทำงานที่ไหน?", 
-      "4. คนอื่นชมคุณว่าอะไร?", "5. ถ้าเลือกอ่านหนังสือ จะอ่านแนวไหน?", "6. เป้าหมายสูงสุดในชีวิตคือ?", 
-      "7. คุณรับมือกับความกดดันยังไง?", "8. วิชาที่คุณชอบที่สุด?", "9. นิสัยเด่นของคุณ?", "10. คุณอยากเห็นตัวเองเป็นอะไรใน 10 ปีข้างหน้า?"
-    ];
+    <script>
+        const questions = [
+            {q: "1. งานในฝันที่คุณรู้สึกอินที่สุด?", a: [
+                {text: "งานลุยๆ ป้องกันความยุติธรรม (ตำรวจ/ทหาร/นักกีฬา)", type: "police"},
+                {text: "งานสร้างสิ่งของ โค้ดโปรแกรม คำนวณ (วิศวกรโยธา/โปรแกรมเมอร์)", type: "eng"},
+                {text: "งานดูแลผู้คน สอนหนังสือ รักษาคน (คุณครู/พยาบาล)", type: "nurse"},
+                {text: "งานศิลปะ เสียงเพลง ขีดเขียน (นักวาดรูป/นักร้อง)", type: "art"}
+            ]},
+            {q: "2. คุณชอบบรรยากาศการทำงานแบบไหน?", a: [
+                {text: "ตื่นเต้น ท้าทาย สถานการณ์เปลี่ยนตลอดเวลา", type: "police"},
+                {text: "มีโครงสร้างชัดเจน มีระบบและระเบียบ", type: "eng"},
+                {text: "อบอุ่น เป็นกันเอง ได้ช่วยเหลือผู้คน", type: "nurse"},
+                {text: "อิสระ มีพื้นที่ส่วนตัวในการสร้างสรรค์", type: "art"}
+            ]},
+            {q: "3. ถ้าเจอเด็กหรือคนต้องการความช่วยเหลือ คุณจะทำอย่างไร?", a: [
+                {text: "เข้าไปปกป้อง ระงับเหตุ หรือดูแลความปลอดภัย", type: "police"},
+                {text: "วิเคราะห์ปัญหาและหาทางแก้ทางเทคนิคหรือโครงสร้าง", type: "eng"},
+                {text: "เข้าไปดูแล ให้คำปรึกษา สอน หรือเยียวยาจิตใจ", type: "nurse"},
+                {text: "สร้างสรรค์ผลงานหรือสื่อเพื่อสร้างแรงบันดาลใจให้เขา", type: "art"}
+            ]},
+            {q: "4. ความถนัดด้านร่างกายหรือทักษะพิเศษของคุณ?", a: [
+                {text: "แข็งแรง อึด ถึก ทน ชอบเคลื่อนไหวร่างกาย", type: "police"},
+                {text: "มือละเอียด ชอบประดิษฐ์ ตรรกะแน่น", type: "eng"},
+                {text: "มีความเมตตา อดทนสูง จิตวิทยาดี", type: "nurse"},
+                {text: "เสียงดี มือไว มีจินตนาการสูงมาก", type: "art"}
+            ]},
+            {q: "5. ถ้าเลือกได้อยากสวมบทบาทไหนในสังคม?", a: [
+                {text: "ผู้พิทักษ์สันติราษฎร์ / นักกีฬาตัวแทนประเทศ", type: "police"},
+                {text: "ผู้สร้างตึก อาคาร หรือระบบคอมพิวเตอร์", type: "eng"},
+                {text: "ผู้ให้ความรู้และสร้างเยาวชน / ผู้รักษาพยาบาล", type: "nurse"},
+                {text: "ศิลปินผู้สร้างรอยยิ้มผ่านเสียงเพลงและภาพวาด", type: "art"}
+            ]},
+            {q: "6. สไตล์การสื่อสารของคุณ?", a: [
+                {text: "เน้นการกระทำและคำสั่งที่ชัดเจน เด็ดขาด", type: "police"},
+                {text: "อธิบายตามหลักการ ข้อมูล และเหตุผล", type: "eng"},
+                {text: "พูดจาอ่อนโยน โน้มน้าวใจ สอนและรับฟัง", type: "nurse"},
+                {text: "ใช้เสียงเพลง งานศิลป์ สื่ออารมณ์ความรู้สึก", type: "art"}
+            ]},
+            {q: "7. วิชาหรือกิจกรรมที่ชอบตอนเรียน?", a: [
+                {text: "พละศึกษา, กิจกรรมกลางแจ้ง, ลูกเสือ", type: "police"},
+                {text: "คณิตศาสตร์, วิทยาศาสตร์, คอมพิวเตอร์", type: "eng"},
+                {text: "สังคมศึกษา, ชีววิทยา, จิตวิทยา", type: "nurse"},
+                {text: "ศิลปะ, ดนตรี, ภาษาต่างประเทศ", type: "art"}
+            ]},
+            {q: "8. ความอดทนที่คุณมีมากที่สุดคืออะไร?", a: [
+                {text: "อดทนต่อความยากลำบากทางกายและสถานการณ์กดดัน", type: "police"},
+                {text: "อดทนต่อการแกะโค้ด แก้บั๊ก หรือคำนวณตัวเลข", type: "eng"},
+                {text: "อดทนต่ออารมณ์คน ความเหนื่อยล้าในการดูแลคน", type: "nurse"},
+                {text: "อดทนทำงานหน้าจอหรือฝึกซ้อมจนดึกเพื่อผลงานที่ดี", type: "art"}
+            ]},
+            {q: "9. ลักษณะการทำงานร่วมกับผู้อื่นที่คุณชอบ?", a: [
+                {text: "ลุยเป็นทีมภาคสนาม ปฏิบัติภารกิจร่วมกัน", type: "police"},
+                {text: "ทำงานเป็นทีมเล็กๆ แบ่งหน้าที่ระบบชัดเจน", type: "eng"},
+                {text: "ทำงานกับผู้คนจำนวนมากหรือดูแลใกล้ชิด", type: "nurse"},
+                {text: "ทำงานคนเดียวได้ หรือทำงานกับกลุ่มศิลปินด้วยกัน", type: "art"}
+            ]},
+            {q: "10. คุณอยากให้คนจดจำคุณในฐานะอะไร?", a: [
+                {text: "ฮีโร่ผู้ปกป้องความยุติธรรม / คนเก่งกีฬา", type: "police"},
+                {text: "ผู้สร้างนวัตกรรม สิ่งก่อสร้าง หรือโปรแกรมสุดล้ำ", type: "eng"},
+                {text: "ครูผู้ให้ความรู้ / พยาบาลใจดีผู้ช่วยชีวิต", type: "nurse"},
+                {text: "ศิลปินผู้สร้างสรรค์บทเพลงและภาพวาดอันทรงคุณค่า", type: "art"}
+            ]}
+        ];
 
-    const container = document.getElementById('questions-container');
-    questions.forEach((q, i) => {
-      container.innerHTML += `
-        <div class="p-4 bg-slate-50 rounded-xl border">
-          <label class="block font-semibold mb-2">${q}</label>
-          <select name="q${i}" class="w-full p-2 border rounded-lg">
-            <option value="teacher">คุณครู</option>
-            <option value="artist">ศิลปิน/นักวาด</option>
-            <option value="engineer">วิศวกร</option>
-            <option value="doctor">คุณหมอ/พยาบาล</option>
-            <option value="police">ตำรวจ/ทหาร</option>
-          </select>
-        </div>
-      `;
-    });
+        const quizDiv = document.getElementById('quiz');
+        questions.forEach((item, i) => {
+            quizDiv.innerHTML += `<div class='q-box'><p><b>${item.q}</b></p>` + 
+            item.a.map((opt, optIdx) => `<button class='btn' onclick="select(this, ${i}, '${opt.type}')">${opt.text}</button>`).join('') + `</div>`;
+        });
 
-    function calculateResult() {
-      const scores = {};
-      document.querySelectorAll('select').forEach(s => {
-        scores[s.value] = (scores[s.value] || 0) + 1;
-      });
-      
-      let best = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-      const jobInfo = {
-        teacher: "คุณเหมาะกับอาชีพครู เพราะคุณมีใจรักในการให้และพร้อมชี้นำทางให้ผู้อื่นครับ",
-        artist: "คุณเหมาะกับอาชีพศิลปิน เพราะคุณมีความคิดสร้างสรรค์และกล้าจะเปลี่ยนจินตนาการให้เป็นจริงครับ",
-        engineer: "คุณเหมาะกับอาชีพวิศวกร เพราะคุณมีหัวใจนักสร้างและความรอบคอบที่ยอดเยี่ยมครับ",
-        doctor: "คุณเหมาะกับอาชีพสายการแพทย์ เพราะคุณมีจิตใจที่งดงามและพร้อมเสียสละเพื่อรักษาผู้คนครับ",
-        police:
+        let userAnswers = {};
+        function select(btn, qIdx, type) {
+            btn.parentElement.querySelectorAll('.btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            userAnswers[qIdx] = type;
+        }
+
+        function getResult() {
+            if(Object.keys(userAnswers).length < 10) { 
+                alert("กรุณาตอบคำถามให้ครบทั้ง 10 ข้อก่อนครับ!"); 
+                return; 
+            }
+
+            let scores = { police: 0, eng: 0, nurse: 0, art: 0 };
+            for(let key in userAnswers) {
+                scores[userAnswers[key]]++;
+            }
+
+            let bestMatch = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            
+            let resultTitleText = "";
+            let resultDescText = "";
+
+            if(bestMatch === 'police') {
+                resultTitleText = "คุณเหมาะกับอาชีพ: 👮‍♂️ ตำรวจ / 🪖 ทหาร / ⚽ นักกีฬา";
+                resultDescText = "พลังบวกของคุณคือ <b>'ความกล้าหาญและหัวใจนักสู้'</b> คุณเป็นคนที่มีพลังงานล้นเหลือ พร้อมลุยเพื่อความถูกต้องและปกป้องผู้อื่น ความอึดถึกทนและความเด็ดขาดของคุณคือเสาหลักที่ทำให้คนรอบข้างรู้สึกปลอดภัยและอุ่นใจได้เสมอ จงภูมิใจในความเข้มแข็งนี้ เพราะคุณเกิดมาเพื่อเป็นผู้นำพาความยุติธรรมและสร้างแรงบันดาลใจผ่านความมุ่งมั่นครับ!";
+            } else if(bestMatch === 'eng') {
+                resultTitleText = "คุณเหมาะกับอาชีพ: 💻 โปรแกรมเมอร์ (Coding) / 🏗️ วิศวกรโยธา";
+                resultDescText = "พลังบวกของคุณคือ <b>'สมองอัจฉริยะนักสร้างสรรค์โลกอนาคต'</b> คุณมีความสามารถพิเศษในการมองเห็นภาพซับซ้อนให้กลายเป็นระบบระเบียบที่ใช้งานได้จริง ความอดทนและความใส่ใจในรายละเอียดทำให้คุณแก้ไขปัญหาที่ยากๆ ได้อย่างไร้ที่ติ ทุกชิ้นงานหรือโค้ดที่คุณสร้างคือรากฐานสำคัญที่ช่วยขับเคลื่อนสังคมให้ก้าวไปข้างหน้าอย่างมั่นคง!";
+            } else if(bestMatch === 'nurse') {
+                resultTitleText = "คุณเหมาะกับอาชีพ: 👩‍🏫 คุณครู / 👩‍⚕️ พยาบาล";
+                resultDescText = "พลังบวกของคุณคือ <b>'หัวใจแห่งความเมตตาและผู้ให้ที่ยิ่งใหญ่'</b> คุณเปี่ยมไปด้วยความเข้าใจ ความเห็นอกเห็นใจ และความอบอุ่นที่พร้อมจะโอบกอดผู้คนยามอ่อนล้า รอยยิ้ม คำแนะนำ และการดูแลเอาใจใส่ของคุณมีความหมายต่อชีวิตของผู้อื่นอย่างมหาศาล คุณคือแสงสว่างที่คอยเยียวยาและสร้างอนาคตให้กับผู้คนรอบข้างด้วยความรักครับ!";
+            } else if(bestMatch === 'art') {
+                resultTitleText = "คุณเหมาะกับอาชีพ: 🎤 นักร้อง / 🎨 นักวาดรูป";
+                resultDescText = "พลังบวกของคุณคือ <b>'จินตนาการไร้ขีดจำกัดและดวงวิญญาณแห่งศิลปิน'</b> คุณมองโลกผ่านมุมมองที่ลึกซึ้งและเต็มไปด้วยสีสัน ความสามารถในการถ่ายทอดอารมณ์ความรู้สึกผ่านเสียงเพลงและภาพวาดของคุณสามารถสร้างรอยยิ้ม เติมเต็มหัวใจ และสร้างแรงบันดาลใจให้ผู้คนบนโลกใบนี้มีความสุขขึ้นได้อย่างมหัศจรรย์ครับ!";
+            }
+
+            document.getElementById('result-title').innerText = resultTitleText;
+            document.getElementById('result-desc').innerHTML = resultDescText;
+            document.getElementById('result').style.display = 'block';
+            
+            // เลื่อนหน้าจอไปที่ผลลัพธ์
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
