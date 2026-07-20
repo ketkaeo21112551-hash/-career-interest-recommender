@@ -3,28 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>แบบทดสอบค้นหาอาชีพ (10 ข้อ)</title>
+  <title>แบบทดสอบค้นหาอาชีพ</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-50 min-h-screen py-10 px-4">
-  <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
-    <h1 class="text-3xl font-bold text-center mb-8">🎯 แบบทดสอบค้นหาตัวตน (10 ข้อ)</h1>
+  <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+    <h1 class="text-2xl font-bold text-center mb-6">🎯 แบบทดสอบค้นหาตัวตน (10 ข้อ)</h1>
     
     <form id="quiz-form" class="space-y-6">
-      <div id="quiz-container" class="space-y-6">
-        <div class="p-5 bg-slate-50 rounded-xl border">
-          <label class="block font-semibold mb-3">1. เมื่อว่าง คุณชอบทำอะไร?</label>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-            <label class="flex items-center p-2 bg-white rounded-lg border cursor-pointer"><input type="radio" name="q0" value="teacher" class="mr-2"> สอนคนอื่น</label>
-            <label class="flex items-center p-2 bg-white rounded-lg border cursor-pointer"><input type="radio" name="q0" value="artist" class="mr-2"> วาดรูป</label>
-            <label class="flex items-center p-2 bg-white rounded-lg border cursor-pointer"><input type="radio" name="q0" value="engineer" class="mr-2"> สร้างของ</label>
-            <label class="flex items-center p-2 bg-white rounded-lg border cursor-pointer"><input type="radio" name="q0" value="athlete" class="mr-2"> เล่นกีฬา</label>
-            <label class="flex items-center p-2 bg-white rounded-lg border cursor-pointer"><input type="radio" name="q0" value="doctor" class="mr-2"> ดูแลคนป่วย</label>
-          </div>
+      <div id="questions-container" class="space-y-6">
         </div>
-        </div>
-
-      <button type="button" onclick="getResult()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700">ดูผลการวิเคราะห์</button>
+      
+      <button type="button" onclick="calculateResult()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700">ดูผลการวิเคราะห์</button>
     </form>
 
     <div id="result" class="hidden mt-8 p-6 bg-blue-50 border-2 border-blue-200 rounded-2xl text-center">
@@ -34,10 +24,38 @@
   </div>
 
   <script>
-    function getResult() {
-      // ระบบคำนวณเหมือนเดิมครับ
-      alert("ระบบวิเคราะห์พร้อมใช้งานแล้ว!");
-    }
-  </script>
-</body>
-</html>
+    const questions = [
+      "1. ยามว่างคุณชอบทำกิจกรรมอะไร?", "2. เมื่อเพื่อนมีปัญหา คุณทำอะไร?", "3. ชอบทำงานที่ไหน?", 
+      "4. คนอื่นชมคุณว่าอะไร?", "5. ถ้าเลือกอ่านหนังสือ จะอ่านแนวไหน?", "6. เป้าหมายสูงสุดในชีวิตคือ?", 
+      "7. คุณรับมือกับความกดดันยังไง?", "8. วิชาที่คุณชอบที่สุด?", "9. นิสัยเด่นของคุณ?", "10. คุณอยากเห็นตัวเองเป็นอะไรใน 10 ปีข้างหน้า?"
+    ];
+
+    const container = document.getElementById('questions-container');
+    questions.forEach((q, i) => {
+      container.innerHTML += `
+        <div class="p-4 bg-slate-50 rounded-xl border">
+          <label class="block font-semibold mb-2">${q}</label>
+          <select name="q${i}" class="w-full p-2 border rounded-lg">
+            <option value="teacher">คุณครู</option>
+            <option value="artist">ศิลปิน/นักวาด</option>
+            <option value="engineer">วิศวกร</option>
+            <option value="doctor">คุณหมอ/พยาบาล</option>
+            <option value="police">ตำรวจ/ทหาร</option>
+          </select>
+        </div>
+      `;
+    });
+
+    function calculateResult() {
+      const scores = {};
+      document.querySelectorAll('select').forEach(s => {
+        scores[s.value] = (scores[s.value] || 0) + 1;
+      });
+      
+      let best = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+      const jobInfo = {
+        teacher: "คุณเหมาะกับอาชีพครู เพราะคุณมีใจรักในการให้และพร้อมชี้นำทางให้ผู้อื่นครับ",
+        artist: "คุณเหมาะกับอาชีพศิลปิน เพราะคุณมีความคิดสร้างสรรค์และกล้าจะเปลี่ยนจินตนาการให้เป็นจริงครับ",
+        engineer: "คุณเหมาะกับอาชีพวิศวกร เพราะคุณมีหัวใจนักสร้างและความรอบคอบที่ยอดเยี่ยมครับ",
+        doctor: "คุณเหมาะกับอาชีพสายการแพทย์ เพราะคุณมีจิตใจที่งดงามและพร้อมเสียสละเพื่อรักษาผู้คนครับ",
+        police:
