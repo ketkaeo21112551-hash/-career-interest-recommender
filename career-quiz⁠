@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Interest Recommender - ค้นหาอาชีพในฝัน</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-indigo-100 min-h-screen py-10 px-4">
+  <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+    
+    <!-- ส่วนหัวข้อ -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">🎯 แบบทดสอบ: ฉันเหมาะกับอาชีพอะไร?</h1>
+      <p class="text-gray-600">ตอบคำถามจิตวิทยาสั้นๆ เพื่อค้นหาเส้นทางอาชีพที่ใช่ ไม่ว่าจะเป็น ครู, หมอ, ตำรวจ, ทหาร, พยาบาล, โยธา, นักวาดรูป, ทนาย หรือนักบอล!</p>
+    </div>
+
+    <!-- ฟอร์มแบบทดสอบ -->
+    <form id="quiz-form" class="space-y-6">
+      
+      <!-- ข้อ 1: ไลฟ์สไตล์ / ความชอบ -->
+      <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+        <label class="block font-semibold text-gray-700 mb-2">1. กิจกรรมยามว่างหรือแนวสิ่งที่คุณชอบทำมากที่สุดคืออะไร?</label>
+        <div class="space-y-2">
+          <label class="flex items-center text-gray-600"><input type="radio" name="q1" value="teacher" class="mr-2"> ชอบอธิบาย สอนการบ้าน หรือคุยกับเด็กๆ</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q1" value="artist" class="mr-2"> ชอบวาดรูป ดีไซน์ ขีดเขียน ออกแบบงานศิลปะ</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q1" value="engineer" class="mr-2"> ชอบต่อเลโก้ สร้างตึก คำนวณโครงสร้าง หรือเล่นเกมวางแผน</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q1" value="athlete" class="mr-2"> ชอบเล่นกีฬา ออกกำลังกาย วิ่งแข่ง หรือเตะฟุตบอล</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q1" value="doctor" class="mr-2"> ชอบช่วยเหลือคนอื่น สนใจเรื่องสุขภาพและการรักษา</label>
+        </div>
+      </div>
+
+      <!-- ข้อ 2: บุคลิกภาพเด่น -->
+      <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+        <label class="block font-semibold text-gray-700 mb-2">2. เมื่อเพื่อนมีปัญหาเดือดร้อนหรือเกิดความขัดแย้ง คุณมักจะมีบทบาทอย่างไร?</label>
+        <div class="space-y-2">
+          <label class="flex items-center text-gray-600"><input type="radio" name="q2" value="lawyer" class="mr-2"> ชอบหาความจริง เถียงด้วยเหตุผล และปกป้องความยุติธรรม</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q2" value="police" class="mr-2"> กล้าหาญ ลุยๆ ชอบความตื่นเต้น และจัดการปัญหาเฉพาะหน้าได้ดี</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q2" value="nurse" class="mr-2"> ใจดี คอยดูแลเอาใจใส่ ปลอบใจเพื่อนยามป่วยไข้</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q2" value="soldier" class="mr-2"> มีวินัย รักความถูกต้อง รักพวกพ้อง และพร้อมเสียสละเพื่อส่วนรวม</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q2" value="teacher" class="mr-2"> ใจเย็น คอยให้คำปรึกษาและชี้นำแนวทางที่ดีให้เพื่อน</label>
+        </div>
+      </div>
+
+      <!-- ข้อ 3: สภาพแวดล้อมการทำงานในฝัน -->
+      <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+        <label class="block font-semibold text-gray-700 mb-2">3. สภาพแวดล้อมแบบไหนที่คุณรู้สึกว่าทำงานแล้วมีความสุขที่สุด?</label>
+        <div class="space-y-2">
+          <label class="flex items-center text-gray-600"><input type="radio" name="q3" value="artist" class="mr-2"> นั่งทำงานในห้องส่วนตัว มีอิสระทางความคิด ได้สร้างผลงานครีเอทๆ</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q3" value="engineer" class="mr-2"> ลุยหน้างานจริง คุมไซต์ก่อสร้าง หรือใช้เทคโนโลยีแก้ไขปัญหา</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q3" value="athlete" class="mr-2"> กลางแจ้ง สนามกีฬา เคลื่อนไหวร่างกายตลอดเวลา ไม่อุดคู้</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q3" value="doctor" class="mr-2"> โรงพยาบาล หรือคลินิก ได้ช่วยชีวิตและรักษาผู้คน</label>
+          <label class="flex items-center text-gray-600"><input type="radio" name="q3" value="lawyer" class="mr-2"> ในห้องประชุม ศาล หรือสำนักงาน ใช้เอกสารและการเจรจา</label>
+        </div>
+      </div>
+
+      <!-- ปุ่มส่งคำตอบ -->
+      <button type="button" onclick="recommendCareer()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg">
+        ✨ วิเคราะห์หาอาชีพที่ใช่สำหรับฉัน
+      </button>
+    </form>
+
+    <!-- ส่วนแสดงผลลัพธ์ -->
+    <div id="result-section" class="hidden mt-8 p-6 bg-indigo-50 border-2 border-indigo-200 rounded-2xl text-center">
+      <h3 class="text-2xl font-bold text-indigo-900 mb-2">🎉 ผลการวิเคราะห์อาชีพของคุณ</h3>
+      <div id="career-badge" class="inline-block bg-indigo-600 text-white text-lg font-semibold px-4 py-2 rounded-full mb-3"></div>
+      <p id="career-desc" class="text-gray-700 text-sm leading-relaxed"></p>
+    </div>
+
+  </div>
+
+  <script>
+    function recommendCareer() {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+
+      if (!q1 || !q2 || !q3) {
+        alert('กรุณาตอบคำถามให้ครบทุกข้อก่อนนะครับ!');
+        return;
+      }
+
+      // นับคะแนนแต่ละอาชีพ
+      const scores = { teacher: 0, artist: 0, engineer: 0, athlete: 0, doctor: 0, lawyer: 0, police: 0, nurse: 0, soldier: 0 };
+      scores[q1.value]++;
+      scores[q2.value]++;
+      scores[q3.value]++;
+
+      // หาอาชีพที่คะแนนสูงสุด
+      let bestCareer = 'teacher';
+      let maxScore = -1;
+      for (let career in scores) {
+        if (scores[career] > maxScore) {
+          maxScore = scores[career];
+          bestCareer = career;
+        }
+      }
+
+      // ข้อมูลคำอธิบายแต่ละอาชีพ
+      const careerDetails = {
+        teacher: { name: "🧑‍🏫 คุณครู / อาจารย์", desc: "คุณมีจิตวิญญาณของการเป็นผู้ให้ ชอบถ่ายทอดความรู้ มีความอดทน และมีความสุขเวลาเห็นคนอื่นเรียนรู้และเติบโต เหมาะกับอาชีพคุณครูมากๆ ครับ" },
+        artist: { name: "🎨 นักวาดรูป / นักออกแบบ (Artist)", desc: "คุณมีจินตนาการสูง รักอิสระ ชอบสร้างสรรค์ผลงานศิลปะหรือดีไซน์ที่ไม่เหมือนใคร เหมาะกับสายงานครีเอทีฟและนักวาดภาพครับ" },
+        engineer: { name: "🏗️ วิศวกรโยธา (โยธา)", desc: "คุณชอบการคำนวณ โครงสร้าง การวางแผน และการสร้างสรรค์สิ่งก่อสร้างให้ออกมาเป็นรูปธรรม เหมาะกับงานโยธาและงานโครงสร้างครับ" },
+        athlete: { name: "⚽ นักฟุตบอล / นักกีฬาอาชีพ", desc: "คุณรักความท้าทาย ชอบการเคลื่อนไหว รักการเล่นกีฬา และมีพลังงานล้นเหลือ เหมาะกับเส้นทางนักกีฬาหรือนักฟุตบอลมืออาชีพครับ" },
+        doctor: { name: "🩺 คุณหมอ / แพทย์", desc: "คุณมีความใส่ใจในชีวิตและสุขภาพของผู้อื่น มีความเสียสละ และพร้อมเรียนรู้สิ่งยากๆ เพื่อช่วยชีวิตผู้คน เหมาะกับสายแพทย์ครับ" },
+        lawyer: { name: "⚖️ ทนายความ / นักกฎหมาย", desc: "คุณรักความถูกต้อง มีเหตุผล มีวาทศิลป์ในการพูดคุยและการเจรจา กล้าปกป้องสิทธิ เหมาะกับสายงานกฎหมายครับ" },
+        police: { name: "🚨 ตำรวจ", desc: "คุณมีความกล้าหาญ รักความยุติธรรม ชอบช่วยเหลือสังคม และพร้อมเผชิญหน้ากับความท้าทายเฉพาะหน้า เหมาะกับอาชีพผู้พิทักษ์สันติราษฎร์ครับ" },
+        nurse: { name: "👩‍⚕️ พยาบาล", desc: "คุณมีความอ่อนโยน เอาใจใส่ ดูแลคนรอบข้างเก่ง และมีความเสียสละสูง เหมาะกับงานพยาบาลผู้ป่วยครับ" },
+        soldier: { name: "🪖 ทหาร", desc: "คุณมีวินัย รักชาติ รักพวกพ้อง และมีความเข้มแข็งทั้งร่างกายและจิตใจ พร้อมเสียสละเพื่อส่วนรวม เหมาะกับอาชีพทหารครับ" }
+      };
+
+      const resultSection = document.getElementById('result-section');
+      const careerBadge = document.getElementById('career-badge');
+      const careerDesc = document.getElementById('career-desc');
+
+      resultSection.classList.remove('hidden');
+      careerBadge.innerText = careerDetails[bestCareer].name;
+      careerDesc.innerText = careerDetails[bestCareer].desc;
+
+      // เลื่อนหน้าจอไปดูผลลัพธ์
+      resultSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
